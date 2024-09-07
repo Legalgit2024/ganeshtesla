@@ -1,0 +1,229 @@
+<html><head><base href="https://auspiciousindiantesla.com/"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Auspicious Ganesh Tesla Calendar</title><style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #120f1d;
+        color: #ffd700;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow-x: hidden;
+    }
+    .container {
+        max-width: 800px;
+        width: 95%;
+        background: linear-gradient(145deg, #1a1631, #2a2447);
+        border-radius: 30px;
+        padding: 2rem;
+        box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    h1 {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #ff9933;
+        text-shadow: 0 0 10px rgba(255, 153, 51, 0.5);
+    }
+    textarea {
+        width: 100%;
+        height: 150px;
+        background-color: #2a2447;
+        color: #ffd700;
+        border: 2px solid #ff9933;
+        border-radius: 15px;
+        padding: 1rem;
+        font-size: 1rem;
+        resize: vertical;
+        margin-bottom: 1rem;
+    }
+    button {
+        background-color: #ff9933;
+        color: #120f1d;
+        border: none;
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    button:hover {
+        background-color: #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+    #result {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: rgba(42, 36, 71, 0.8);
+        border-radius: 15px;
+        border: 1px solid #ff9933;
+    }
+    .neon-border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 30px;
+        pointer-events: none;
+        background: linear-gradient(45deg, #ff9933, #ffd700, #138808, #ff9933);
+        filter: blur(20px);
+        opacity: 0.1;
+        z-index: -1;
+    }
+    .star {
+        position: fixed;
+        background-color: #ffffff;
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+        opacity: 0;
+        animation: twinkle 5s infinite;
+        pointer-events: none;
+    }
+    @keyframes twinkle {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @keyframes pulse {
+        0% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+</style></head><body>
+<div class="container">
+    <div class="neon-border"></div>
+    <h1>Auspicious Ganesh Tesla Calendar</h1>
+    <textarea id="businessPlan" placeholder="Type your business plan or idea here..."></textarea>
+    <button onclick="generateAuspiciousDays()">Generate Auspicious Days</button>
+    <div id="result"></div>
+</div>
+
+<svg id="ganeshSvg" width="300" height="300" viewBox="0 0 300 300" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.1; pointer-events: none;">
+    <path d="M150 30 C 100 30, 50 80, 50 150 C 50 220, 100 270, 150 270 C 200 270, 250 220, 250 150 C 250 80, 200 30, 150 30 Z" fill="none" stroke="#ff9933" stroke-width="2"/>
+    <path d="M100 100 Q 150 50, 200 100 T 300 150" fill="none" stroke="#ff9933" stroke-width="2"/>
+    <circle cx="150" cy="120" r="30" fill="none" stroke="#ff9933" stroke-width="2"/>
+    <path d="M120 180 Q 150 220, 180 180" fill="none" stroke="#ff9933" stroke-width="2"/>
+</svg>
+
+<script>
+const teslaQuotes = [
+    "The present is theirs; the future, for which I really worked, is mine.",
+    "If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.",
+    "The day science begins to study non-physical phenomena, it will make more progress in one decade than in all the previous centuries of its existence.",
+    "I do not think there is any thrill that can go through the human heart like that felt by the inventor as he sees some creation of the brain unfolding to success.",
+    "The scientists of today think deeply instead of clearly. One must be sane to think clearly, but one can think deeply and be quite insane."
+];
+
+const ganeshPrinciples = [
+    "Wisdom: Seek knowledge and understanding in your ventures.",
+    "New Beginnings: Embrace fresh starts and opportunities.",
+    "Obstacle Removal: Identify and overcome challenges in your path.",
+    "Prosperity: Strive for success and abundance in your endeavors."
+];
+
+const auspiciousSymbols = ['॥ श्री ॥', '🕉️', '卐', '🕎', '☸️', 'धर्म', '॥ शुभ लाभ ॥'];
+
+function generateAuspiciousDays() {
+    const businessPlan = document.getElementById('businessPlan').value;
+    const resultDiv = document.getElementById('result');
+    
+    if (businessPlan.trim() === '') {
+        resultDiv.innerHTML = '<p style="color: #ff6b6b;">Please enter your business plan or idea first.</p>';
+        return;
+    }
+
+    const words = businessPlan.split(' ');
+    const seedNumber = words.length % 9 || 9;
+    const currentDate = new Date();
+    
+    let auspiciousDays = '';
+    for (let i = 0; i < 3; i++) {
+        const daysToAdd = (seedNumber * (i + 1) + currentDate.getDate()) % 30 + 1;
+        const auspiciousDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + daysToAdd);
+        const symbol = auspiciousSymbols[Math.floor(Math.random() * auspiciousSymbols.length)];
+        const reason = generateReason(businessPlan, auspiciousDate);
+        auspiciousDays += `
+            <p>${symbol} ${auspiciousDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            <p><strong>Reason:</strong> ${reason}</p>
+        `;
+    }
+
+    const teslaQuote = teslaQuotes[Math.floor(Math.random() * teslaQuotes.length)];
+    const ganeshPrinciple = ganeshPrinciples[Math.floor(Math.random() * ganeshPrinciples.length)];
+
+    resultDiv.innerHTML = `
+        <h3 style="color: #ff9933;">Auspicious Days for Your Venture:</h3>
+        ${auspiciousDays}
+        <h3 style="color: #ff9933; margin-top: 1rem;">Ganesh's Wisdom:</h3>
+        <p><em>${ganeshPrinciple}</em></p>
+        <h3 style="color: #ff9933; margin-top: 1rem;">Nikola Tesla's Wisdom:</h3>
+        <p><em>"${teslaQuote}"</em></p>
+    `;
+
+    animateGanesh();
+}
+
+function generateReason(businessPlan, date) {
+    const keywords = ['innovation', 'technology', 'growth', 'success', 'creativity', 'leadership', 'transformation'];
+    const keyword = keywords[Math.floor(Math.random() * keywords.length)];
+    const numerology = date.getDate() % 9 || 9;
+    return `The cosmic energies align with your focus on ${keyword}. The date's numerology (${numerology}) resonates with your business plan, creating a harmonious vibration for success.`;
+}
+
+function animateGanesh() {
+    const ganeshSvg = document.getElementById('ganeshSvg');
+    ganeshSvg.style.animation = 'pulse 3s infinite alternate';
+    ganeshSvg.style.opacity = '0.3';
+}
+
+function createStar() {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    star.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+        star.remove();
+    }, 5000);
+}
+
+function createStars() {
+    for (let i = 0; i < 50; i++) {
+        setTimeout(createStar, i * 100);
+    }
+}
+
+createStars();
+setInterval(createStars, 5000);
+
+// Create energy sparkles
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.style.position = 'fixed';
+    sparkle.style.width = '2px';
+    sparkle.style.height = '2px';
+    sparkle.style.backgroundColor = '#ffd700';
+    sparkle.style.borderRadius = '50%';
+    sparkle.style.pointerEvents = 'none';
+    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+    sparkle.style.opacity = Math.random();
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => {
+        sparkle.remove();
+    }, 1000);
+}
+
+setInterval(createSparkle, 100);
+
+</script></body></html>
